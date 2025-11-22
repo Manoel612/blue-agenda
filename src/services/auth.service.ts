@@ -1,10 +1,9 @@
-import type { RegisterModel } from '@/models/user-model'
+import type { IRegister } from '@/interfaces/user-model'
 import api from './api'
 
 export const authService = {
-  async register(model: RegisterModel) {
+  async register(model: IRegister) {
     try {
-      debugger
       return await api.post('/Authentication/Register', model)
     } catch (error) {
       throw error

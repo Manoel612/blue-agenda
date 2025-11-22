@@ -46,12 +46,24 @@
   </Card>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Form, Field } from 'vee-validate'
 import * as yup from 'yup'
+import { useAuthStore } from '@/stores/auth'
+import AppInputText from './AppInputText.vue'
+import AppPassword from './AppPassword.vue'
+import AppDatePicker from './AppDatePicker.vue'
+import AppInputMask from './AppInputMask.vue'
+import AppButton from './AppButton.vue'
+
+const authStore = useAuthStore()
 
 const phoneRegex = /^\d{10,11}$/
 const cpfRegex = /^\d{11}$/
+
+function extractNumbers(value: string): string {
+  return value.replace(/\D/g, '')
+}
 
 const schema = yup.object({
   name: yup
@@ -64,9 +76,18 @@ const schema = yup.object({
   phoneNumber: yup
     .string()
     .required('Telefone é obrigatório')
-    .matches(phoneRegex, 'Telefone deve conter apenas números e ter 10 ou 11 dígitos'),
+    .test('phone-digits', 'Telefone deve conter 10 ou 11 dígitos', (value) => {
+      const digits = extractNumbers(value || '')
+      return phoneRegex.test(digits)
+    }),
 
-  cpf: yup.string().required('CPF é obrigatório').matches(cpfRegex, 'CPF deve conter 11 dígitos'),
+  cpf: yup
+    .string()
+    .required('CPF é obrigatório')
+    .test('cpf-digits', 'CPF deve conter 11 dígitos', (value) => {
+      const digits = extractNumbers(value || '')
+      return cpfRegex.test(digits)
+    }),
 
   birthDate: yup
     .date()
@@ -88,8 +109,18 @@ const schema = yup.object({
     .oneOf([yup.ref('password')], 'Senhas não conferem'),
 })
 
-function onSubmit(values) {
-  alert(JSON.stringify(values, null, 2))
+async function onSubmit(values: any) {
+  try {
+    const { confirmPassword, phoneNumber, cpf, ...payload } = values
+    const cleanedPayload = {
+      ...payload,
+      phoneNumber: extractNumbers(phoneNumber),
+      cpf: extractNumbers(cpf),
+    }
+    await authStore.register(cleanedPayload)
+  } catch (error: any) {
+    alert(error.message || 'Erro ao registrar')
+  }
 }
 </script>
 

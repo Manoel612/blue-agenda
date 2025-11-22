@@ -8,10 +8,7 @@ const authStore = useAuthStore()
 
 <template>
   <main>
-    <div class="mt-4 mb-4 flex align-items-center justify-content-center">
-      <RegisterForm v-if="authStore.formState === 'register'" />
-      <LoginForm v-else-if="authStore.formState === 'login'" />
-    </div>
+    <p>Welcome! You are logged in.</p>
   </main>
 </template>
 

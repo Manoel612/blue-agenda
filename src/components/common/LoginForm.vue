@@ -35,8 +35,11 @@ const schema = yup.object({
 })
 
 function onSubmit(values: any) {
-  console.log('Login attempt:', values)
-  authStore.login()
+  try {
+    authStore.login(values.email, values.password)
+  } catch (error: any) {
+    alert(error.message || 'Erro ao fazer login')
+  }
 }
 </script>
 

@@ -1,13 +1,5 @@
+import type { RegisterModel } from '@/models/user-model'
 import api from './api'
-
-export interface RegisterModel {
-  name: string
-  email: string
-  phoneNumber: string
-  cpf: string
-  birthDate: Date | string
-  password: string
-}
 
 export const authService = {
   async register(model: RegisterModel) {

@@ -12,13 +12,18 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppButton: typeof import('./src/components/common/AppButton.vue')['default']
+    AppDatePicker: typeof import('./src/components/common/AppDatePicker.vue')['default']
     AppFooter: typeof import('./src/components/layout/AppFooter.vue')['default']
     AppHeader: typeof import('./src/components/layout/AppHeader.vue')['default']
     AppInputText: typeof import('./src/components/common/AppInputText.vue')['default']
     AppLink: typeof import('./src/components/common/AppLink.vue')['default']
+    AppPassword: typeof import('./src/components/common/AppPassword.vue')['default']
     Button: typeof import('primevue/button')['default']
     Card: typeof import('primevue/card')['default']
     copy: typeof import('./src/components/layout/AppHeader copy.vue')['default']
+    DatePicker: typeof import('primevue/datepicker')['default']
+    InputText: typeof import('primevue/inputtext')['default']
+    RegisterForm: typeof import('./src/components/common/RegisterForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Toolbar: typeof import('primevue/toolbar')['default']

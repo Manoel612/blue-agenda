@@ -1,15 +1,5 @@
-<script setup lang="ts">
-import RegisterForm from '@/components/common/RegisterForm.vue'
-import LoginForm from '@/components/common/LoginForm.vue'
-import { useAuthStore } from '@/stores/auth'
+<script setup lang="ts"></script>
 
-const authStore = useAuthStore()
-</script>
-
-<template>
-  <main>
-    <p>Welcome! You are logged in.</p>
-  </main>
-</template>
+<template></template>
 
 <style scoped></style>

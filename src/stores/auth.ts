@@ -2,10 +2,14 @@ import { authService } from '@/services/auth.service'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-export type AuthFormState = 'register' | 'login' | 'logged-in'
+export enum AuthFormState {
+  Register = 'register',
+  Login = 'login',
+  LoggedIn = 'logged-in',
+}
 
 export const useAuthStore = defineStore('auth', () => {
-  const formState = ref<AuthFormState>('register')
+  const formState = ref<AuthFormState>(AuthFormState.Register)
   const isLoggedIn = ref(!!localStorage.getItem('token'))
   const token = ref<string | null>(localStorage.getItem('token'))
 
@@ -14,7 +18,8 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function toggleFormState() {
-    formState.value = formState.value === 'register' ? 'login' : 'register'
+    formState.value =
+      formState.value == AuthFormState.Register ? AuthFormState.Login : AuthFormState.Register
   }
 
   async function login(email: string, password: string) {
@@ -25,11 +30,11 @@ export const useAuthStore = defineStore('auth', () => {
       localStorage.setItem('token', token.value!)
 
       isLoggedIn.value = true
-      formState.value = 'logged-in'
+      formState.value = AuthFormState.LoggedIn
 
       return true
     } catch (error: any) {
-      throw error.response?.data?.message || 'Erro ao fazer login.'
+      throw error.response?.data?.message
     }
   }
 
@@ -37,11 +42,10 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       await authService.register(model)
 
-      // Após registrar, muda automaticamente para tela de login
-      formState.value = 'login'
+      formState.value = AuthFormState.Login
       return true
     } catch (error: any) {
-      throw error.response?.data?.message || 'Erro ao registrar.'
+      throw error.response?.data?.message
     }
   }
 
@@ -50,7 +54,7 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('token')
 
     isLoggedIn.value = false
-    formState.value = 'register'
+    formState.value = AuthFormState.Register
   }
 
   return {

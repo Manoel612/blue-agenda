@@ -11,3 +11,11 @@ export interface IUpdateContact {
   phoneNumber?: string
   birthDate?: Date | string
 }
+
+export interface IContact {
+  id: string
+  name: string
+  email: string
+  phoneNumber: string
+  birthDate: Date | string
+}

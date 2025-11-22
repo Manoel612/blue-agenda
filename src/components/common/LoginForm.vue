@@ -38,7 +38,7 @@ function onSubmit(values: any) {
   try {
     authStore.login(values.email, values.password)
   } catch (error: any) {
-    alert(error.message || 'Erro ao fazer login')
+    alert(error.message)
   }
 }
 </script>

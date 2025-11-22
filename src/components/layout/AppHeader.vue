@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppButton from '../common/AppButton.vue'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore, AuthFormState } from '@/stores/auth'
 
 const authStore = useAuthStore()
 
@@ -15,7 +15,7 @@ function handleHeaderButtonClick() {
 function getButtonLabel() {
   if (authStore.isLoggedIn) {
     return 'Logout'
-  } else if (authStore.formState === 'register') {
+  } else if (authStore.formState == AuthFormState.Register) {
     return 'Login'
   } else {
     return 'Cadastro'
@@ -30,7 +30,14 @@ function getButtonLabel() {
     </template>
 
     <template #end>
-      <AppButton :label="getButtonLabel()" icon="pi pi-user" @click="handleHeaderButtonClick" />
+      <AppButton
+        :label="getButtonLabel()"
+        :icon="!authStore.isLoggedIn ? 'pi pi-user' : ''"
+        :severity="authStore.isLoggedIn ? 'danger' : ''"
+        @click="handleHeaderButtonClick"
+      />
     </template>
   </Toolbar>
 </template>
+
+<style scoped></style>

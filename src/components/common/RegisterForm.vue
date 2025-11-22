@@ -77,7 +77,7 @@ const schema = yup.object({
     .string()
     .required('Telefone é obrigatório')
     .test('phone-digits', 'Telefone deve conter 10 ou 11 dígitos', (value) => {
-      const digits = extractNumbers(value || '')
+      const digits = extractNumbers(value)
       return phoneRegex.test(digits)
     }),
 
@@ -85,7 +85,7 @@ const schema = yup.object({
     .string()
     .required('CPF é obrigatório')
     .test('cpf-digits', 'CPF deve conter 11 dígitos', (value) => {
-      const digits = extractNumbers(value || '')
+      const digits = extractNumbers(value)
       return cpfRegex.test(digits)
     }),
 
@@ -119,7 +119,7 @@ async function onSubmit(values: any) {
     }
     await authStore.register(cleanedPayload)
   } catch (error: any) {
-    alert(error.message || 'Erro ao registrar')
+    alert(error.message)
   }
 }
 </script>

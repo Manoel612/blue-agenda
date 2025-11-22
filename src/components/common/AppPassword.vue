@@ -1,18 +1,20 @@
 <template>
   <div class="flex flex-column gap-1">
     <label v-if="label" class="font-semibold text-xs">{{ label }}</label>
-    <div>
-      <Password
-        :value="modelValue"
-        :placeholder="placeholder"
-        :disabled="disabled"
-        @input="handleInput"
-        toggleMask
-        :feedback="false"
-        fluid
-        inputClass="p-3"
-      />
-    </div>
+
+    <Password
+      :feedback="false"
+      :toggleMask="true"
+      :value="modelValue"
+      @input="onInput"
+      @blur="$emit('blur', $event)"
+      :placeholder="placeholder"
+      inputClass="p-3"
+      fluid
+      :disabled="disabled"
+    />
+
+    <small v-if="error" class="text-red-400">{{ error }}</small>
   </div>
 </template>
 
@@ -20,17 +22,16 @@
 import Password from 'primevue/password'
 
 const props = defineProps({
-  modelValue: { type: String, default: '' },
-  placeholder: { type: String, default: '' },
-  label: { type: String, default: '' },
-  disabled: { type: Boolean, default: false },
+  modelValue: String,
+  placeholder: String,
+  label: String,
+  disabled: Boolean,
+  error: String,
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'blur'])
 
-function handleInput(event) {
-  emit('update:modelValue', event.target.value)
+function onInput(e) {
+  emit('update:modelValue', e.target.value)
 }
 </script>
-
-<style scoped></style>

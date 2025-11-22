@@ -2,29 +2,95 @@
   <Card class="shadow-3">
     <template #title>
       <div class="flex justify-content-center">
-        <h3>Cadastrar usuário</h3>
+        <h4>Cadastrar usuário</h4>
       </div>
     </template>
     <template #content>
-      <form action="" class="w-24rem flex gap-3 flex-column">
-        <AppInputText label="E-mail*" placeholder="nome@email.com" />
-        <AppInputText label="Confirme seu e-mail*" placeholder="nome@email.com" />
-        <AppInputText label="Cpf*" placeholder="000.000.000-00" />
-        <AppInputText label="Telefone*" placeholder="(00) 00000-0000" />
-        <AppPassword label="Senha*" />
-        <AppPassword label="Confirmar senha*" />
-        <AppDatePicker label="Data de nascimento*" />
-        <AppButton label="Cadastrar" />
-      </form>
+      <Form @submit="onSubmit" :validation-schema="schema" class="flex flex-column gap-3 w-24rem">
+        <Field name="name" v-slot="{ field, errorMessage }">
+          <AppInputText v-bind="field" label="Nome*" :error="errorMessage" />
+        </Field>
+
+        <Field name="email" v-slot="{ field, errorMessage }">
+          <AppInputText v-bind="field" label="E-mail*" :error="errorMessage" />
+        </Field>
+
+        <Field name="phoneNumber" v-slot="{ field, errorMessage }">
+          <AppInputMask
+            v-bind="field"
+            label="Telefone*"
+            mask="(99) 99999-9999"
+            :error="errorMessage"
+          />
+        </Field>
+
+        <Field name="cpf" v-slot="{ field, errorMessage }">
+          <AppInputMask v-bind="field" label="CPF*" mask="999.999.999-99" :error="errorMessage" />
+        </Field>
+
+        <Field name="birthDate" v-slot="{ field, errorMessage }">
+          <AppDatePicker v-bind="field" label="Data de nascimento*" :error="errorMessage" />
+        </Field>
+
+        <Field name="password" v-slot="{ field, errorMessage }">
+          <AppPassword v-bind="field" label="Senha*" :error="errorMessage" />
+        </Field>
+
+        <Field name="confirmPassword" v-slot="{ field, errorMessage }">
+          <AppPassword v-bind="field" label="Confirmar senha*" :error="errorMessage" />
+        </Field>
+
+        <AppButton type="submit" label="Cadastrar" />
+      </Form>
     </template>
   </Card>
 </template>
 
 <script setup>
-import AppButton from './AppButton.vue'
-import AppPassword from './AppPassword.vue'
-import AppDatePicker from './AppDatePicker.vue'
-import AppInputText from './AppInputText.vue'
+import { Form, Field } from 'vee-validate'
+import * as yup from 'yup'
+
+const phoneRegex = /^\d{10,11}$/
+const cpfRegex = /^\d{11}$/
+
+const schema = yup.object({
+  name: yup
+    .string()
+    .required('Nome é obrigatório')
+    .max(255, 'Nome deve ter no máximo 255 caracteres'),
+
+  email: yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
+
+  phoneNumber: yup
+    .string()
+    .required('Telefone é obrigatório')
+    .matches(phoneRegex, 'Telefone deve conter apenas números e ter 10 ou 11 dígitos'),
+
+  cpf: yup.string().required('CPF é obrigatório').matches(cpfRegex, 'CPF deve conter 11 dígitos'),
+
+  birthDate: yup
+    .date()
+    .typeError('Data de nascimento inválida')
+    .required('Data de nascimento é obrigatória')
+    .max(new Date(), 'Data de nascimento não pode ser no futuro'),
+
+  password: yup
+    .string()
+    .required('Senha é obrigatória')
+    .min(8, 'Senha deve ter no mínimo 8 caracteres')
+    .matches(/[a-z]/, 'Senha deve conter pelo menos uma letra minúscula')
+    .matches(/[A-Z]/, 'Senha deve conter pelo menos uma letra maiúscula')
+    .matches(/[^a-zA-Z0-9]/, 'Senha deve conter pelo menos um caractere especial'),
+
+  confirmPassword: yup
+    .string()
+    .required('Confirme sua senha')
+    .oneOf([yup.ref('password')], 'Senhas não conferem'),
+})
+
+function onSubmit(values) {
+  alert(JSON.stringify(values, null, 2))
+}
 </script>
 
 <style scoped></style>

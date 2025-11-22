@@ -21,7 +21,6 @@ declare module 'vue' {
     AppPassword: typeof import('./src/components/common/AppPassword.vue')['default']
     Button: typeof import('primevue/button')['default']
     Card: typeof import('primevue/card')['default']
-    copy: typeof import('./src/components/layout/AppHeader copy.vue')['default']
     DatePicker: typeof import('primevue/datepicker')['default']
     InputMask: typeof import('primevue/inputmask')['default']
     InputText: typeof import('primevue/inputtext')['default']

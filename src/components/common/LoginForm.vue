@@ -26,6 +26,7 @@ import { useAuthStore } from '@/stores/auth'
 import AppInputText from './AppInputText.vue'
 import AppPassword from './AppPassword.vue'
 import AppButton from './AppButton.vue'
+import router from '@/router'
 
 const authStore = useAuthStore()
 
@@ -34,11 +35,15 @@ const schema = yup.object({
   password: yup.string().required('Senha é obrigatória'),
 })
 
-function onSubmit(values: any) {
+async function onSubmit(values: any) {
   try {
-    authStore.login(values.email, values.password)
+    const result = await authStore.login(values.email, values.password)
+
+    if (result) {
+      router.push('/contacts')
+    }
   } catch (error: any) {
-    alert(error.message)
+    alert(error)
   }
 }
 </script>

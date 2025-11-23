@@ -28,6 +28,7 @@ import { ref } from 'vue'
 import AppButton from '../common/AppButton.vue'
 import { useAuthStore, AuthFormState } from '@/stores/auth'
 import type ContactModal from '../common/ContactModal.vue'
+import router from '@/router'
 
 const authStore = useAuthStore()
 const contactModalRef = ref<InstanceType<typeof ContactModal>>()
@@ -35,6 +36,7 @@ const contactModalRef = ref<InstanceType<typeof ContactModal>>()
 function handleHeaderButtonClick() {
   if (authStore.isLoggedIn) {
     authStore.logout()
+    router.push('/')
   } else {
     authStore.toggleFormState()
   }

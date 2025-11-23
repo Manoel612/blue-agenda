@@ -43,16 +43,17 @@
     </div>
   </div>
 
-  <UpdateContactModal ref="updateContactModalRef" />
+  <UpdateContactModal ref="updateContactModalRef" @contact-updated="onContactChange" />
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import AppButton from '@/components/common/AppButton.vue'
 import { contactService } from '@/services/contact.service'
 import type UpdateContactModal from '@/components/common/UpdateContactModal.vue'
-import { formatPhone } from '@/pipes/format-phone'
-import { formatDate } from '@/pipes/format-date'
+import { formatPhone } from '@/util/format-phone'
+import { formatDate } from '@/util/format-date'
+import { emitter } from '@/util/eventBus'
 
 const updateContactModalRef = ref<InstanceType<typeof UpdateContactModal>>()
 const contacts = ref([])
@@ -63,6 +64,11 @@ const lazyParams = ref({
   first: 0,
   rows: 10,
 })
+
+const onContactChange = () => {
+  lazyParams.value.first = 0
+  loadLazyData()
+}
 
 const loadLazyData = async () => {
   loading.value = true
@@ -94,9 +100,17 @@ onMounted(() => {
 function editContact(contact: any) {
   updateContactModalRef.value?.openModal(contact.id)
 }
+onMounted(() => {
+  emitter.on('contact-created-globally', onContactChange)
+  loadLazyData()
+})
+
+onUnmounted(() => {
+  emitter.off('contact-created-globally', onContactChange)
+})
 
 async function deleteContact(contact: any) {
   await contactService.deactivateContact(contact.id)
-  loadLazyData()
+  onContactChange()
 }
 </script>

@@ -50,8 +50,10 @@ import AppDatePicker from './AppDatePicker.vue'
 import AppInputMask from './AppInputMask.vue'
 import AppButton from './AppButton.vue'
 import { contactService } from '@/services/contact.service'
+import { emitter } from '@/util/eventBus'
 
 const showDialog = ref(false)
+const emit = defineEmits(['contact-created'])
 
 function openModal() {
   showDialog.value = true
@@ -90,8 +92,8 @@ async function onSubmit(values: any) {
       phoneNumber: extractNumbers(values.phoneNumber),
       birthDate: new Date(values.birthDate),
     }
-    debugger
     await contactService.createContact(payload)
+    emitter.emit('contact-created-globally')
     showDialog.value = false
   } catch (error: any) {
     alert(error.message)

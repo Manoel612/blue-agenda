@@ -51,8 +51,10 @@ import AppInputMask from './AppInputMask.vue'
 import AppButton from './AppButton.vue'
 import { contactService } from '@/services/contact.service'
 import type { IUpdateContact } from '@/interfaces/contact-model'
+import { emitter } from '@/util/eventBus'
 
 const showDialog = ref(false)
+const emit = defineEmits(['contact-updated'])
 let currentContactId: string | null = null
 
 function openModal(id: string) {
@@ -93,6 +95,7 @@ async function onSubmit(values: IUpdateContact) {
     }
 
     await contactService.updateContact(currentContactId!, payload)
+    emitter.emit('contact-created-globally')
     showDialog.value = false
   } catch (error: any) {
     alert(error.message)

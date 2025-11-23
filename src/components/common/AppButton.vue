@@ -4,6 +4,7 @@
     :icon="icon"
     :class="customClass"
     :disabled="disabled"
+    :severity="severity"
     @click="handleClick"
   />
 </template>
@@ -16,6 +17,7 @@ const props = defineProps({
   icon: { type: String, default: '' },
   customClass: { type: String, default: '' },
   disabled: { type: Boolean, default: false },
+  severity: { type: String, default: '' },
 })
 
 const emit = defineEmits(['click'])

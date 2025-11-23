@@ -19,3 +19,8 @@ export interface IContact {
   phoneNumber: string
   birthDate: Date | string
 }
+
+export interface IUserContactsResponse {
+  items: IContact[]
+  totalItems: number
+}

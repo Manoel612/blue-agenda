@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import AppButton from '../common/AppButton.vue'
 import { useAuthStore, AuthFormState } from '@/stores/auth'
+import type ContactModal from '../common/ContactModal.vue'
 
 const authStore = useAuthStore()
+const contactModalRef = ref<InstanceType<typeof ContactModal>>()
 
 function handleHeaderButtonClick() {
   if (authStore.isLoggedIn) {
@@ -10,6 +13,10 @@ function handleHeaderButtonClick() {
   } else {
     authStore.toggleFormState()
   }
+}
+
+async function openContactModal() {
+  contactModalRef.value?.openModal()
 }
 
 function getButtonLabel() {
@@ -30,14 +37,23 @@ function getButtonLabel() {
     </template>
 
     <template #end>
-      <AppButton
-        :label="getButtonLabel()"
-        :icon="!authStore.isLoggedIn ? 'pi pi-user' : ''"
-        :severity="authStore.isLoggedIn ? 'danger' : ''"
-        @click="handleHeaderButtonClick"
-      />
+      <div class="flex gap-3 align-items-center">
+        <AppButton
+          v-if="authStore.isLoggedIn"
+          label="Cadastrar Contato"
+          @click="openContactModal"
+        />
+        <AppButton
+          :label="getButtonLabel()"
+          :icon="!authStore.isLoggedIn ? 'pi pi-user' : ''"
+          :severity="authStore.isLoggedIn ? 'danger' : ''"
+          @click="handleHeaderButtonClick"
+        />
+      </div>
     </template>
   </Toolbar>
+
+  <ContactModal ref="contactModalRef" />
 </template>
 
 <style scoped></style>

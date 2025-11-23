@@ -24,7 +24,6 @@ declare module 'vue' {
     Column: typeof import('primevue/column')['default']
     Contact: typeof import('./src/components/common/Contact.vue')['default']
     ContactModal: typeof import('./src/components/common/ContactModal.vue')['default']
-    copy: typeof import('./src/components/common/ContactModal copy.vue')['default']
     DataTable: typeof import('primevue/datatable')['default']
     DataView: typeof import('primevue/dataview')['default']
     DatePicker: typeof import('primevue/datepicker')['default']

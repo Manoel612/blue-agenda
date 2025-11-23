@@ -5,11 +5,7 @@
     </template>
 
     <template #end>
-      <AppLink
-        label="Repositório"
-        icon="pi pi-github"
-        href="https://github.com/seu-usuario/seu-repositorio"
-      />
+      <AppLink label="Perfil github" icon="pi pi-github" href="https://github.com/Manoel612" />
     </template>
   </Toolbar>
 </template>

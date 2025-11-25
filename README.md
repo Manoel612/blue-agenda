@@ -1,54 +1,44 @@
-# blue-agenda
+# 💙 BlueAgenda: Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+Aplicação **Frontend** construída com **Vue 3**, **TypeScript** e **Vite**, projetada para interagir com a API do **BlueAgenda**.
 
-## Recommended IDE Setup
+---
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## 🛠️ Pré-requisitos
 
-## Recommended Browser Setup
+Certifique-se de ter os seguintes itens instalados em seu ambiente:
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+* **Node.js** (versão LTS recomendada)
+* **npm** ou **yarn**
+* A **API do BlueAgenda** deve estar rodando e acessível.
 
-## Type Support for `.vue` Imports in TS
+---
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## 🚀 Como Rodar o Projeto
 
-## Customize configuration
+### 1. Configuração da Variável de Ambiente
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+O projeto utiliza uma variável de ambiente para especificar o endereço da API de backend.
 
-## Project Setup
+* Crie um arquivo chamado **`.env`** na raiz do projeto.
+* Adicione a seguinte variável, substituindo `[URL_DA_SUA_API]` pelo endereço real da API do BlueAgenda (por exemplo, `http://localhost:5000/api`):
+VITE_API_BASE_URL="[URL_DA_SUA_API]"
 
-```sh
+### 2. Instalação de Dependências
+
+Abra o terminal na pasta raiz do projeto e execute o comando para instalar as dependências:
+
+```bash
 npm install
+# ou
+yarn install
 ```
 
-### Compile and Hot-Reload for Development
+### 3. Execução
 
-```sh
+Execute o comando abaixo para iniciar o servidor de desenvolvimento:
+   
+```bash
 npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+# ou
+yarn dev
